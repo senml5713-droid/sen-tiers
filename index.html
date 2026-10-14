@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEN'SMP - Clan Wars & Tierlist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #060913;
+            --card-bg: rgba(13, 18, 36, 0.8);
+            --border-neon: rgba(0, 240, 255, 0.3);
+            --cyan-glow: #00f0ff;
+            --purple-glow: #8a2be2;
+            --gold-glow: #ffb700;
+            --text-main: #f1f5f9;
+            --text-muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(138, 43, 226, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(0, 240, 255, 0.18) 0%, transparent 45%);
+            background-attachment: fixed;
+            padding: 24px 14px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* HEADER SECTION */
+        header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .server-badge {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--cyan-glow);
+            text-transform: uppercase;
+            padding: 5px 16px;
+            border: 1px solid var(--cyan-glow);
+            border-radius: 20px;
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.35);
+            margin-bottom: 10px;
+            background: rgba(0, 240, 255, 0.05);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--cyan-glow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* PRIZE POOL BANNER */
+        .prize-banner {
+            background: rgba(13, 18, 36, 0.9);
+            border: 1px solid var(--gold-glow);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(255, 183, 0, 0.25);
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .prize-item h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .prize-item .coins {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--gold-glow);
+            text-shadow: 0 0 12px rgba(255, 183, 0, 0.6);
+        }
+
+        /* 3-ROUND ARENA SYSTEM SUMMARY */
+        .arena-system {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .round-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-neon);
+            border-radius: 10px;
+            padding: 12px 8px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .round-box h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--cyan-glow);
+            margin-bottom: 4px;
+        }
+
+        .round-box p {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        /* SEARCH BAR */
+        .search-container {
+            margin-bottom: 22px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(8, 12, 24, 0.95);
+            border: 1px solid var(--border-neon);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--cyan-glow);
+            box-shadow: 0 0 18px rgba(0, 240, 255, 0.45);
+        }
+
+        /* CLAN CARDS LIST (NO NUMBERS) */
+        .clans-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .clan-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-neon);
+            border-radius: 14px;
+            padding: 18px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clan-card:hover {
+            border-color: var(--cyan-glow);
+            box-shadow: 0 0 22px rgba(0, 240, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .clan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--cyan-glow), var(--purple-glow));
+        }
+
+        .clan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-left: 6px;
+        }
+
+        .clan-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .clan-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--cyan-glow);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        .clan-name-box h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .clan-leader {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .clan-leader span {
+            color: var(--cyan-glow);
+            font-weight: 700;
+        }
+
+        .tier-badge {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 6px;
+            background: rgba(100, 116, 139, 0.18);
+            color: var(--text-muted);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            text-transform: uppercase;
+        }
+
+        /* MEMBER ROSTER GRID */
+        .roster-section {
+            background: rgba(6, 9, 19, 0.65);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .roster-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            letter-spacing: 1px;
+        }
+
+        .roster-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .member-slot {
+            background: rgba(13, 18, 36, 0.85);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 6px 8px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .member-slot.filled {
+            border-style: solid;
+            border-color: var(--border-neon);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* CARD FOOTER */
+        .clan-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 6px;
+        }
+
+        .pts-box {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .pts-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--cyan-glow);
+        }
+
+        .pts-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* RESPONSIVE DESIGN FOR PHONES */
+        @media (max-width: 600px) {
+            .arena-system {
+                grid-template-columns: 1fr;
+            }
+            .roster-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="server-badge">SEN'SMP Official</div>
+            <h1>Clan Wars Dashboard</h1>
+            <p class="subtitle">3-Round Progressive Arena Tournament & Clan Tierlist</p>
+        </header>
+
+        <!-- PRIZE POOL REWARDS -->
+        <div class="prize-banner">
+            <div class="prize-item">
+                <h3>🥇 1ST PLACE</h3>
+                <div class="coins">100 COINS</div>
+            </div>
+            <div class="prize-item">
+                <h3>🥈 2ND PLACE</h3>
+                <div class="coins">50 COINS</div>
+            </div>
+            <div class="prize-item">
+                <h3>🥉 3RD PLACE</h3>
+                <div class="coins">30 COINS</div>
+            </div>
+        </div>
+
+        <!-- 3-ROUND ARENA SYSTEM -->
+        <div class="arena-system">
+            <div class="round-box">
+                <h4>ROUND 1</h4>
+                <p>💎 Diamond Gear</p>
+            </div>
+            <div class="round-box">
+                <h4>ROUND 2</h4>
+                <p>🖤 Netherite Gear</p>
+            </div>
+            <div class="round-box">
+                <h4>ROUND 3</h4>
+                <p>⚔️ Own Grind Gear</p>
+            </div>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search Clan Name, Leader, or Member Gamer Tag...">
+        </div>
+
+        <!-- 10 CLAN SLOTS (NO RANK NUMBERS) -->
+        <div class="clans-grid" id="clansGrid">
+            <!-- JavaScript renders 10 Clan Slots automatically -->
+        </div>
+    </div>
+
+    <script>
+        // 10 CLAN SLOTS DATA
+        const clansData = [
+            { id: 1, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] },
+            { id: 2, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] },
+            { id: 3, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] },
+            { id: 4, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] },
+            { id: 5, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] },
+            { id: 6, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] },
+            { id: 7, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] },
+            { id: 8, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] },
+            { id: 9, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] },
+            { id: 10, name: "Slot Available", leader: "Unassigned", points: 0, tier: "UNRANKED", members: ["Slot 1", "Slot 2", "Slot 3", "Slot 4", "Slot 5", "Slot 6"] }
+        ];
+
+        const clansGrid = document.getElementById('clansGrid');
+        const searchInput = document.getElementById('searchInput');
+
+        function renderClans(filter = "") {
+            clansGrid.innerHTML = "";
+            const query = filter.toLowerCase();
+
+            const filteredClans = clansData.filter(clan => {
+                const matchName = clan.name.toLowerCase().includes(query);
+                const matchLeader = clan.leader.toLowerCase().includes(query);
+                const matchMember = clan.members.some(m => m.toLowerCase().includes(query));
+                return matchName || matchLeader || matchMember;
+            });
+
+            if (filteredClans.length === 0) {
+                clansGrid.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 30px; font-family: 'Orbitron', sans-serif;">NO CLANS OR MEMBERS FOUND</div>`;
+                return;
+            }
+
+            filteredClans.forEach(clan => {
+                const card = document.createElement('div');
+                card.className = 'clan-card';
+
+                const membersHTML = clan.members.map(member => `
+                    <div class="member-slot ${member.startsWith('Slot') ? '' : 'filled'}">
+                        👤 ${member}
+                    </div>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="clan-header">
+                        <div class="clan-title">
+                            <div class="clan-icon">🛡️</div>
+                            <div class="clan-name-box">
+                                <h2>${clan.name}</h2>
+                                <div class="clan-leader">Leader: <span>${clan.leader}</span></div>
+                            </div>
+                        </div>
+                        <div class="tier-badge">${clan.tier}</div>
+                    </div>
+
+                    <div class="roster-section">
+                        <div class="roster-title">
+                            <span>OFFICIAL ROSTER</span>
+                            <span>6 SLOTS</span>
+                        </div>
+                        <div class="roster-grid">
+                            ${membersHTML}
+                        </div>
+                    </div>
+
+                    <div class="clan-footer">
+                        <div class="pts-box">
+                            <span class="pts-value">${clan.points}</span>
+                            <span class="pts-label">Arena Points</span>
+                        </div>
+                    </div>
+                `;
+                clansGrid.appendChild(card);
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            renderClans(e.target.value);
+        });
+
+        renderClans();
+    </script>
+</body>
+</html>
